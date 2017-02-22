@@ -29,7 +29,7 @@ else ifneq ($(findstring MINGW,$(shell uname -a)),)
 	system_platform = win
 endif
 
-TARGET_NAME := dolphin_launcher
+TARGET_NAME := bash_launcher
 LIBM		= -lm
 
 ifeq ($(ARCHFLAGS),)
@@ -111,7 +111,7 @@ else
    CFLAGS += -O3
 endif
 
-OBJECTS := libretro-dolphin-launcher.o
+OBJECTS := libretro-bash-launcher.o
 CFLAGS += -Wall -pedantic $(fpic)
 
 ifneq (,$(findstring qnx,$(platform)))

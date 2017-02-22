@@ -43,10 +43,10 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
 void retro_get_system_info(struct retro_system_info *info)
 {
    memset(info, 0, sizeof(*info));
-   info->library_name     = "Dolphin Launcher";
+   info->library_name     = "Bash Launcher";
    info->library_version  = "1.0.4";
    info->need_fullpath    = true;
-   info->valid_extensions = "elf|dol|gcm|iso|wbfs|ciso|gcz|wad";
+   info->valid_extensions = "sh|bsh|script";
 }
 
 static retro_video_refresh_t video_cb;
@@ -121,7 +121,7 @@ void retro_reset(void)
 /**
  * libretro callback; Called every game tick.
  *
- * Once the core has run, we will attempt to exit, since Dolphin is done.
+ * Once the core has run, we will attempt to exit, since Bash is done.
  */
 void retro_run(void)
 {
@@ -129,7 +129,7 @@ void retro_run(void)
    unsigned stride = 320;
    video_cb(frame_buf, 320, 240, stride << 2);
 
-   // Shutdown the environment now that Dolphin has loaded and quit.
+   // Shutdown the environment now that Bash has loaded and quit.
    environ_cb(RETRO_ENVIRONMENT_SHUTDOWN, NULL);
 }
 
@@ -138,16 +138,16 @@ void retro_run(void)
  */
 bool retro_load_game(const struct retro_game_info *info)
 {
-   // TODO: Find where "dolphin-emu" lives.
-   // Construct the command to run Dolphin.
-   char command[512] = "dolphin-emu";
+   // TODO: Find where "bash" lives.
+   // Construct the command to run Bash.
+   char command[512] = "bash";
 
    // Check if there is content to load.
    if (info != NULL && info->path != NULL && info->path[0] != '\0') {
-      sprintf(command, "%s --batch --exec=\"%s\"", command, info->path);
+      sprintf(command, "%s \"%s\"", command, info->path);
    }
 
-   // Run Dolphin.
+   // Run Bash.
    return system(command) != -1;
 }
 
