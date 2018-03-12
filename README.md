@@ -107,6 +107,7 @@ Preambule:
 So, uhh... It's real pain, but I think I fugure it out. Still launch script twice for no reason, and the second copy is not seen gamepad. Wtf?
 
 Note: Debian users (using package) must not copy any files, just edit it.
+Note 2: Also, important steps for debian users is 1 and 3. Do not copy anything, but change home dir and permition of the file. It's not *yet* automatic.
 
 1. Find your gamepad vendor code
   ``` bash
@@ -137,6 +138,7 @@ Note: Debian users (using package) must not copy any files, just edit it.
   Same steps as above.
  
 2. User setup
+
   Change third string in etc/999-retroarch.sh to your user home dir.
   
 3. Copy both files from etc
