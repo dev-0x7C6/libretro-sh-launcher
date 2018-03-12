@@ -1,0 +1,58 @@
+#!/bin/sh
+
+check_file()
+{
+	if [ ! -f "$1" ]; then
+		notify-send "PC Launcher Error:" "No such file $1"
+		exit 1
+	fi
+}
+
+check_antimicro()
+{
+	if [ ! -z $(pidof antimicro) ]; then
+		kill -15 $(pidof antimicro)
+	fi
+}
+
+pademu()
+{
+	antimicro --hidden --profile $HOME/.config/antimicro/$(echo $1 | sed 's/.sh/.joystick.amgp/g') &
+}
+
+wine_run_local()
+{
+	check_file "$1"
+	cd "$(dirname "$1")"
+	wine -d -fps -p=.wine_tesv $(basename "$1")
+	check_antimicro
+}
+
+wine_run_steam()
+{
+	echo "Not implemeted yet."
+	exit 0
+	check_file
+	check_antimicro
+}
+
+run_local()
+{
+	check_file "$1"
+	cd "$(dirname "$1")"
+	./$(basename "$1")
+	check_antimicro
+}
+
+run_steam()
+{
+	steam -applaunch $1
+	check_antimicro
+}
+
+run_dosbox()
+{
+	cd "$(dirname "$1")"
+	dosbox $1
+	check_antimicro
+}

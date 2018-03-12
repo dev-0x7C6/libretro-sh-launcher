@@ -4,7 +4,8 @@
 #include <stdarg.h>
 #include <string.h>
 #include <math.h>
-#include <libretro.h>
+
+#include "libretro.h"
 
 static uint32_t *frame_buf;
 static struct retro_log_callback logging;
@@ -43,8 +44,8 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
 void retro_get_system_info(struct retro_system_info *info)
 {
    memset(info, 0, sizeof(*info));
-   info->library_name     = "Bash Launcher";
-   info->library_version  = "1.0.4";
+   info->library_name     = "Sh Launcher";
+   info->library_version  = "1.0.0";
    info->need_fullpath    = true;
    info->valid_extensions = "sh|bsh|script";
 }

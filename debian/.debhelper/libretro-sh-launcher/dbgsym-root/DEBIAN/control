@@ -1,0 +1,13 @@
+Package: libretro-sh-launcher-dbgsym
+Source: libretro-sh-launcher
+Version: 1.0.0-1+stretch
+Auto-Built-Package: debug-symbols
+Architecture: amd64
+Maintainer: Volk_Milit (aka Ja'Virr-Dar) <javirrdar@gmail.com>
+Installed-Size: 21
+Depends: libretro-sh-launcher (= 1.0.0-1+stretch)
+Section: debug
+Priority: extra
+Homepage: https://github.com/VolkMilit/libretro-sh-launcher
+Description: Debug symbols for libretro-sh-launcher
+Build-Ids: 2c9d3f5a74c84ab759b2076c2e9666bc325ecb41
