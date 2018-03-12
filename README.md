@@ -1,5 +1,6 @@
 # libretro-sh-launcher
 Based on [libretro-dolphin-launcher](https://github.com/RobLoach/libretro-dolphin-launcher).
+
 Fork of [libretro-bash-launcher](https://github.com/SwedishGojira/libretro-bash-launcher), see full list of changes below.
 
 Launch (ba)sh-scripts directly from [RetroArch](http://www.libretro.com/) to launch your Linux games.
@@ -63,7 +64,7 @@ Launch (ba)sh-scripts directly from [RetroArch](http://www.libretro.com/) to lau
 
 3. Alternatively, you can run games through the command line
   ``` bash
-  retroarch -L bash_launcher_libretro.so script.sh
+  retroarch -L sh_launcher_libretro.so script.sh
   ```
 
 ## sh-launcher.shlib usage
@@ -92,7 +93,7 @@ So for example simple simple script will look like this:
 If you're using bash:
 
   ``` bash
-  #!/bin/bash
+  #!/usr/bin/env bash
   source /usr/lib/x86_64-linux-gnu/libretro/sh-launcher.shlib
   
   pademu $0
@@ -122,6 +123,7 @@ Note: Debian users (using package) must not copy any files, just edit it.
   
   Change that numbers in etc/999-run-retroarch.rules.
   
+  
   Alternatively you can search for code in dmesg.
   
   ``` bash
@@ -133,6 +135,7 @@ Note: Debian users (using package) must not copy any files, just edit it.
   [11315.334038] input: USB GAMEPAD 8116 as /devices/pci0000:00/0000:00:1d.3/usb5/5-2/5-2:1.0/0003:1A34:0802.0002/input/input14
   
   Same steps as above.
+  
   
 2. Copy both files from etc
   ``` bash
