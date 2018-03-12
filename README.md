@@ -135,11 +135,14 @@ Note: Debian users (using package) must not copy any files, just edit it.
   [11315.334038] input: USB GAMEPAD 8116 as /devices/pci0000:00/0000:00:1d.3/usb5/5-2/5-2:1.0/0003:1A34:0802.0002/input/input14
   
   Same steps as above.
+ 
+2. User setup
+  Change third string in etc/999-retroarch.sh to your user home dir.
   
-  
-2. Copy both files from etc
+3. Copy both files from etc
   ``` bash
   sudo cp etc/* /etc/udev/rules.d/
+  sudo chmod +x /etc/udev/rules.d/999-retroarch.sh
   ```
   
   You're done. Next time you connect the gamepad, retroarch will be launched.
