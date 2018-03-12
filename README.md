@@ -72,12 +72,12 @@ This lib is simple sh library that you can use in your own scripts. You can put 
 
 List of function that you can use:
 
-pademu $0 - launch antimicro with right profile. Profile must be named as script, without .sh tho. Profiles must be in $HOME/.config/antimicro . After game is exit, antimicro will terminated.
-wine_run_local [game_exe_full_path] - launch wine using [my scripts](https://github.com/VolkMilit/wine-helper-script).
-wine_run_steam [game_id] - launch wine steam using [my scripts](https://github.com/VolkMilit/wine-helper-script). Still WIP.
-run_local [game_exe_full_path] - launch local game, gog, for example.
-run_steam [game_id] - run native steam game.
-run_dosbox [game_exe_full_path] - run dosbox.
+- pademu $0 - launch antimicro with right profile. Profile must be named as script, without .sh tho. Profiles must be in $HOME/.config/antimicro . After game is exit, antimicro will terminated.
+- wine_run_local [game_exe_full_path] - launch wine using [my scripts](https://github.com/VolkMilit/wine-helper-script).
+- wine_run_steam [game_id] - launch wine steam using [my scripts](https://github.com/VolkMilit/wine-helper-script). Still WIP.
+- run_local [game_exe_full_path] - launch local game, gog, for example.
+- run_steam [game_id] - run native steam game.
+- run_dosbox [game_exe_full_path] - run dosbox.
 
 So for example simple simple script will look like this:
 
@@ -102,6 +102,7 @@ If you're using bash:
 ## Install udev module
 
 Preambule:
+
 So, uhh... It's real pain, but I think I fugure it out. Still launch script twice for no reason, and the second copy is not seen gamepad. Wtf?
 
 Note: Debian users (using package) must not copy any files, just edit it.
@@ -112,9 +113,13 @@ Note: Debian users (using package) must not copy any files, just edit it.
   ```
   
   Connect your gamepad and search for string like this:
+  
   UDEV  [11315.399848] add      /devices/pci0000:00/0000:00:1d.3/usb5/5-2/5-2:1.0/0003:1A34:0802.0002/input/input14/js0 (input)
+  
   1A34 is your vendor id
+  
   0802 is product id
+  
   Change that numbers in etc/999-run-retroarch.rules.
   
   Alternatively you can search for code in dmesg.
@@ -124,7 +129,9 @@ Note: Debian users (using package) must not copy any files, just edit it.
   ```
   
   String like:
+  
   [11315.334038] input: USB GAMEPAD 8116 as /devices/pci0000:00/0000:00:1d.3/usb5/5-2/5-2:1.0/0003:1A34:0802.0002/input/input14
+  
   Same steps as above.
   
 2. Copy both files from etc
