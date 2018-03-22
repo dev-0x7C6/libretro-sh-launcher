@@ -2,6 +2,7 @@
 
 lpl="$HOME/.config/retroarch/playlists/Bash - Sh Launcher - PC.lpl"
 tumb="$HOME/.config/retroarch/thumbnails/Bash - Sh Launcher - PC"
+path=$(awk -F'path=' '{print $2}' sh-laucher.cfg | tr -d '\n')
 
 if [ ! -f "$lpl" ]; then
 	touch "$lpl"
@@ -14,10 +15,12 @@ if [ ! -d "$tumb" ]; then
 	mkdir "$tumb/Named_Titles"
 fi
 
-for file in /media/drive1/games/Emu/PC/*; do
+for file in $path/*; do
 	NAME=$(awk -F'NAME=' '{print $2}' $file | tr -d '\n"')
+	[ -z $NAME ] && NAME=$(basename "$file")
+	
 	if [ -z "$(grep $file "$lpl")" ]; then
-		echo $file >> "$lpl"
+		echo $file >> "$lpl"		
 		echo $NAME >> "$lpl"
 		echo "/usr/lib/x86_64-linux-gnu/libretro/sh_launcher_libretro.so" >> "$lpl"
 		echo "Linux (Sh Launcher)" >> "$lpl"
