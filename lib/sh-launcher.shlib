@@ -17,7 +17,8 @@ check_antimicro()
 
 pademu()
 {
-	antimicro --hidden --profile $HOME/.config/antimicro/$(echo $1 | sed 's/.sh/.joystick.amgp/g') &
+	# I figure that you cant actually using $0 since it's another process
+	antimicro --hidden --profile $HOME/.config/antimicro/$1.joystick.amgp & #$(echo $1 | sed 's/.sh/.joystick.amgp/g') &
 }
 
 wine_run_local()
@@ -46,8 +47,12 @@ run_local()
 
 run_steam()
 {
+	# there is a problem, cuz steam launch game separatly, so retroarch think game is over
+	
 	steam -applaunch $1
+	kill -15 $(pidof retroarch)
 	check_antimicro
+	retroarch -L /usr/lib/x86_64-linux-gnu/libretro/sh_launcher_libretro.so
 }
 
 run_dosbox()

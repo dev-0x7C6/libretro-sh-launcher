@@ -73,7 +73,7 @@ This lib is simple sh library that you can use in your own scripts. You can put 
 
 List of function that you can use:
 
-- pademu $0 - launch antimicro with right profile. Profile must be named as script, without .sh tho. Profiles must be in $HOME/.config/antimicro . After game is exit, antimicro will terminated.
+- pademu [profile_name] - launch antimicro with right profile. Profile must be named as script, without .sh tho. Profiles must be in $HOME/.config/antimicro . After game is exit, antimicro will terminated.
 - wine_run_local [game_exe_full_path] - launch wine using [my scripts](https://github.com/VolkMilit/wine-helper-script).
 - wine_run_steam [game_id] - launch wine steam using [my scripts](https://github.com/VolkMilit/wine-helper-script). Still WIP.
 - run_local [game_exe_full_path] - launch local game, gog, for example.
