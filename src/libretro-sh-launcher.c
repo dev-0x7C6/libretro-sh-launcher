@@ -78,7 +78,7 @@ void retro_init(void)
    const char *generate = readconfig("generate_playlist");
    pid_t pid;
    
-   if (strncmp(generate, "true\n", 6))
+   if (strncmp(generate, "true\n", 6) == 0)
    {
 	   if ((pid = fork()) < 0)
 		{
