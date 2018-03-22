@@ -31,15 +31,15 @@ char *readconfig(char *s)
     size_t len = 0;
     ssize_t read;
 	
-	char *str2[2];
+	char *str2[128];
 	char *token;
 	int i = 0;
 	
 	const char *HOME = getenv("HOME");
 	const char *filepath = "/.config/retroarch/sh-laucher.cfg";
-	char *filepathtrue;
+	char *filepathtrue = calloc(strlen(HOME)+strlen(filepath), sizeof(filepathtrue));
 	
-	if ((filepathtrue = malloc(strlen(HOME)+strlen(filepath)+1)) != NULL)
+	if (filepathtrue != NULL)
 	{
 		strcat(filepathtrue, HOME);
 		strcat(filepathtrue, filepath);
@@ -51,17 +51,18 @@ char *readconfig(char *s)
 	}
 	
 	if((fp = fopen(filepathtrue, "r")) == NULL)
-		return "";
-	
+		return NULL;
+
 	while ((read = getline(&line, &len, fp)) != -1)
 		if (strstr(line, s))
 			break;
 	
 	if(fp) 
 		fclose(fp);
-
+		
+	free(filepathtrue);
+		
 	char *rest = line;
-
 	while((token = strtok_r(rest, "=", &rest)) != NULL)
 	{
 		str2[i] = token;
@@ -78,7 +79,9 @@ void retro_init(void)
    const char *generate = readconfig("generate_playlist");
    pid_t pid;
    
-   if (strncmp(generate, "true\n", 6) == 0)
+   int r = strncmp(generate, "true\n", 5);
+   
+   if (r == 0)
    {
 	   if ((pid = fork()) < 0)
 		{
