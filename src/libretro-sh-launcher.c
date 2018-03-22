@@ -24,9 +24,75 @@ static void fallback_log(enum retro_log_level level, const char *fmt, ...)
    va_end(va);
 }
 
+char *readconfig(char *s)
+{
+	FILE *fp;
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read;
+	
+	char *str2[2];
+	char *token;
+	int i = 0;
+	
+	const char *HOME = getenv("HOME");
+	const char *filepath = "/.config/retroarch/sh-laucher.cfg";
+	char *filepathtrue;
+	
+	if ((filepathtrue = malloc(strlen(HOME)+strlen(filepath)+1)) != NULL)
+	{
+		strcat(filepathtrue, HOME);
+		strcat(filepathtrue, filepath);
+	}
+	else
+	{
+		fprintf(stderr, "malloc failed!\n");
+		exit(-1);
+	}
+	
+	if((fp = fopen(filepathtrue, "r")) == NULL)
+		return "";
+	
+	while ((read = getline(&line, &len, fp)) != -1)
+		if (strstr(line, s))
+			break;
+	
+	if(fp) 
+		fclose(fp);
+
+	char *rest = line;
+
+	while((token = strtok_r(rest, "=", &rest)) != NULL)
+	{
+		str2[i] = token;
+		i+=1;
+	}
+	
+	return str2[1];
+}
+
 void retro_init(void)
 {
    frame_buf = calloc(320 * 240, sizeof(uint32_t));
+   
+   const char *generate = readconfig("generate_playlist");
+   pid_t pid;
+   
+   if (strncmp(generate, "true\n", 6))
+   {
+	   if ((pid = fork()) < 0)
+		{
+			perror("Can't fork process.\n");
+			return;
+		}
+		else if (pid == 0)
+		{
+			if (execlp("/bin/sh", "/bin/sh", "-c", "/usr/lib/x86_64-linux-gnu/libretro/sh-launcher-pg.sh", (char*)NULL) == -1)
+			{
+				return;
+			}
+		}
+   }
 }
 
 void retro_deinit(void)
