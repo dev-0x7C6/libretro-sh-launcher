@@ -5,6 +5,8 @@ Fork of [libretro-bash-launcher](https://github.com/SwedishGojira/libretro-bash-
 
 Launch (ba)sh-scripts directly from [RetroArch](http://www.libretro.com/) to launch your Linux games.
 
+![Sh Launcher Screenshot](screenshot.png)
+
 ## Changes from the original bash-launcher
 
 - Use cmake instead of make. Two reasons - cmake code is more simplier, and I can't sort thing out of original make file.
@@ -164,8 +166,8 @@ Note: Debian users (using package) must not copy any files, just edit it.
 This module can automatically generate fancy playlist thing for retroarch! According to [retroarch docs](https://docs.libretro.com/guides/roms-playlists-thumbnails/#retroarch-playlist-scanner) for have an auto-generated playlist, core need to be in database. Since our core is not in database, even if it be, there is too many games, we create our own "local database". All we need to add in *.sh file two entry:
 
 ``` bash
-	NAME="Name of the game to display"
-	ART="Full path to art"
+NAME="Name of the game to display"
+ART="Full path to art"
 ```
 
 Both varibles is optional. If you're too lazy, playlist-geneator will be used generic art (can be disabled in config) and, as a name - name of the file.
