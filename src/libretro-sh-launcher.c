@@ -5,6 +5,10 @@
 #include <string.h>
 #include <math.h>
 
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
 #include "libretro.h"
 
 static uint32_t *frame_buf;
@@ -45,7 +49,7 @@ void retro_get_system_info(struct retro_system_info *info)
 {
    memset(info, 0, sizeof(*info));
    info->library_name     = "Sh Launcher";
-   info->library_version  = "1.0.0";
+   info->library_version  = "1.0.5";
    info->need_fullpath    = true;
    info->valid_extensions = "sh|bsh|script";
 }
@@ -139,17 +143,46 @@ void retro_run(void)
  */
 bool retro_load_game(const struct retro_game_info *info)
 {
-   // TODO: Find where "bash" lives.
-   // Construct the command to run Bash.
-   char command[512] = "bash";
+	// TODO: Find where "bash" lives.
+	// Construct the command to run Bash.
+	//char command[512] = "bash";   
+	
+	pid_t pid, w;
+	int status, ret;
 
-   // Check if there is content to load.
-   if (info != NULL && info->path != NULL && info->path[0] != '\0') {
-      sprintf(command, "%s \"%s\"", command, info->path);
-   }
+	// Check if there is content to load.
+	if (info != NULL && info->path != NULL && info->path[0] != '\0') 
+	{
+		//sprintf(command, "%s \"%s\"", command, info->path);
+		
+		if ((pid = fork()) < 0)
+		{
+			perror("Can't fork process.\n");
+			return -1;
+		}
+		else if (pid == 0)
+		{
+			if (execlp("/bin/sh", "/bin/sh", "-c", info->path, (char*)NULL) == -1)
+			{
+				log_cb(RETRO_LOG_INFO, "Failed to launch %s.\n", info->path);
+				return -1;
+			}
+		}
+	}
 
-   // Run Bash.
-   return system(command) != -1;
+	// Run Bash.
+	//return system(command) != -1;
+	
+	do
+	{
+		ret = waitpid(pid, &status, 0);
+		/*
+		 * Let me explain something. Actually waitpid return -1 here, but retroarch doesn't launch if get -1.
+		 * So after an hour of debugging I just don't add error handling. And everything works now.
+		 * */
+	} while (ret == pid);
+	
+	//return 0;
 }
 
 void retro_unload_game(void)

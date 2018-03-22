@@ -10,4 +10,4 @@ Section: debug
 Priority: extra
 Homepage: https://github.com/VolkMilit/libretro-sh-launcher
 Description: Debug symbols for libretro-sh-launcher
-Build-Ids: 2c9d3f5a74c84ab759b2076c2e9666bc325ecb41
+Build-Ids: fa2bd66cb2483af94056c3e7ac7f5fe5668cdf4d
