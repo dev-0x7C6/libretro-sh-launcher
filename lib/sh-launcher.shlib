@@ -3,7 +3,7 @@
 check_file()
 {
 	if [ ! -f "$1" ]; then
-		notify-send "PC Launcher Error:" "No such file $1"
+		notify-send "Libretro Sh Launcher Error:" "No such file $1"
 		exit 1
 	fi
 }
@@ -25,6 +25,7 @@ wine_run_local()
 {
 	check_file "$1"
 	cd "$(dirname "$1")"
+	notify-send "Libretor Sh Launcher:" "Launch game $(basename "$1")" -t1
 	wine -d -fps -p=.wine_tesv $(basename "$1")
 	check_antimicro
 }
@@ -41,6 +42,7 @@ run_local()
 {
 	check_file "$1"
 	cd "$(dirname "$1")"
+	notify-send "Libretor Sh Launcher:" "Launch game $(basename "$1")" -t1
 	./$(basename "$1")
 	check_antimicro
 }
