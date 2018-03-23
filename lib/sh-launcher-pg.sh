@@ -2,7 +2,13 @@
 
 lpl="$HOME/.config/retroarch/playlists/Bash - Sh Launcher - PC.lpl"
 tumb="$HOME/.config/retroarch/thumbnails/Bash - Sh Launcher - PC"
-path=$(awk -F'path=' '{print $2}' sh-laucher.cfg | tr -d '\n')
+path=$(awk -F'path=' '{print $2}' $HOME/.config/retroarch/sh-laucher.cfg | tr -d '\n')
+
+if [ ! -d $path ]; then
+	notify-send "Libretro Sh Launcher error:" "Path $path doesn't exist."
+	notify-send "Libretro Sh Launcher error:" "Plese fix your config and reload retroarch."
+	exit 0
+fi
 
 if [ ! -f "$lpl" ]; then
 	touch "$lpl"
@@ -17,7 +23,7 @@ fi
 
 for file in $path/*; do
 	NAME=$(awk -F'NAME=' '{print $2}' $file | tr -d '\n"')
-	[ -z $NAME ] && NAME=$(basename "$file")
+	[ -z "$NAME" ] && NAME=$(basename "$file")
 	
 	if [ -z "$(grep $file "$lpl")" ]; then
 		echo $file >> "$lpl"		
