@@ -156,7 +156,6 @@ Note: Debian users (using package) must not copy any files, just edit it.
 3. Copy both files from etc
   ``` bash
   sudo cp etc/* /etc/udev/rules.d/
-  sudo chmod +x /etc/udev/rules.d/999-retroarch.sh
   ```
   
   You're done. Next time you connect the gamepad, retroarch will be launched.
