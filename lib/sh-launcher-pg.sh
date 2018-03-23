@@ -1,5 +1,7 @@
 #!/bin/sh
 
+notify-send "Libretro Sh launcher:" "Updating playlist..."
+
 lpl="$HOME/.config/retroarch/playlists/Bash - Sh Launcher - PC.lpl"
 tumb="$HOME/.config/retroarch/thumbnails/Bash - Sh Launcher - PC"
 path=$(awk -F'path=' '{print $2}' $HOME/.config/retroarch/sh-laucher.cfg | tr -d '\n')
@@ -26,6 +28,7 @@ for file in $path/*; do
 	[ -z "$NAME" ] && NAME=$(basename "$file")
 	
 	if [ -z "$(grep $file "$lpl")" ]; then
+		notify-send "Libretro Sh launcher:" "Found new file $(basename $file)"
 		echo $file >> "$lpl"		
 		echo $NAME >> "$lpl"
 		echo "/usr/lib/x86_64-linux-gnu/libretro/sh_launcher_libretro.so" >> "$lpl"
@@ -47,9 +50,28 @@ for file in $path/*; do
 		fi
 		
 		if [ "$md5cur" != "$md5thb" ]; then
+			notify-send "Libretro Sh launcher:" "Update art for $(basename $file)"
+			ext=$(file "$ART" | cut -d':' -f2 | cut -d' ' -f2)
+			a=$(basename "$ART")
+			fixext=$(echo "$a" | sed 's/jp?g/png/g')
+			
+			if [ "$ext" != "PNG" ]; then
+				cp "$ART" /tmp/
+				convert /tmp/"$a" /tmp/$fixext
+				ART="/tmp/$fixext"
+			fi
+			
 			cp "$ART" "$tumb/Named_Boxarts/$NAME.png"
 			cp "$ART" "$tumb/Named_Snaps/$NAME.png"
 			cp "$ART" "$tumb/Named_Titles/$NAME.png"
+			
+			if [ -f "/tmp/$fixext" ]; then
+				rm /tmp/$fixext
+			fi
 		fi
+	else
+		cp "/usr/share/libretro/assets/xmb/monochrome/png/generic_art.png" "$tumb/Named_Boxarts/$NAME.png"
+		cp "/usr/share/libretro/assets/xmb/monochrome/png/generic_art.png" "$tumb/Named_Snaps/$NAME.png"
+		cp "/usr/share/libretro/assets/xmb/monochrome/png/generic_art.png" "$tumb/Named_Titles/$NAME.png"
 	fi
 done
