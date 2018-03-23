@@ -13,7 +13,7 @@ include(GNUInstallDirs)
 
 install_files(/lib/x86_64-linux-gnu/libretro FILES sh_launcher_libretro.so)
 install_files(/lib/x86_64-linux-gnu/libretro FILES lib/sh-launcher.shlib)
-install(FILES lib/sh-launcher-pg.sh PERMISSIONS OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ DESTINATION ${CMAKE_INSTALL_LIBDIR}/x86_64-linux-gnu/libretro)
+install(FILES lib/sh-launcher-pg.sh PERMISSIONS OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ DESTINATION ${CMAKE_INSTALL_LIBDIR}/libretro)
 install_files(/share/libretro/assets/xmb/monochrome/png FILES "share/libretro/assets/xmb/monochrome/png/Bash - Sh Launcher - PC.png")
 install_files(/share/libretro/assets/xmb/monochrome/png FILES "share/libretro/assets/xmb/monochrome/png/Bash - Sh Launcher - PC-content.png")
 install(FILES etc/999-retroarch.sh etc/999-run-retroarch.rules DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/udev/rules.d)
