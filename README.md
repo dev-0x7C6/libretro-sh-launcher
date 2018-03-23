@@ -166,7 +166,7 @@ This module can automatically generate fancy playlist thing for retroarch! Accor
 
 ``` bash
 NAME="Name of the game to display"
-ART="Full path to art"
+ART="Full path to art" or "game_steam_id"
 ```
 
 Both varibles is optional. If you're too lazy, playlist-geneator will be used generic art (can be disabled in config) and, as a name - name of the file.
