@@ -12,7 +12,7 @@ Launch (ba)sh-scripts directly from [RetroArch](http://www.libretro.com/) to lau
 - Use cmake instead of make. Two reasons - cmake code is more simplier, and I can't sort thing out of original make file.
 - Add sh library to easy create your own sh launchers. For example, for wine.
 - Add udev module for autolaunch Retroarch. Well, somebody say it's useless feature, but I want just plug in my controller and start playing.
-- Playlists and thumbsnail auto generation.
+- Playlists and thumbnails auto generation.
 - Debian package.
 
 ## Installation
