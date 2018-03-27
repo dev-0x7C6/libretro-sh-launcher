@@ -1,0 +1,3 @@
+[submodule "src/third-party/ftlip"]
+	path = src/third-party/ftlip
+	url = https://github.com/VolkMilit/ftlip.git
