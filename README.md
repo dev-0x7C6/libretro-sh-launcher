@@ -30,7 +30,7 @@ Launch (ba)sh-scripts directly from [RetroArch](http://www.libretro.com/) to lau
 1. Compile the core
 
   ``` bash
-  git clone https://github.com/VolkMilit/libretro-sh-launcher.git
+  git clone --recurse-submodules https://github.com/VolkMilit/libretro-sh-launcher.git
   cd libretro-sh-launcher
   mkdir build && cd build
   cmake ..
@@ -52,7 +52,7 @@ Launch (ba)sh-scripts directly from [RetroArch](http://www.libretro.com/) to lau
 1. Clone repo and Install necessary packages
   ``` bash
   mkdir libretro-sh-launcher && cd libretro-sh-launcher
-  git clone https://github.com/VolkMilit/libretro-sh-launcher.git
+  git clone --recurse-submodules https://github.com/VolkMilit/libretro-sh-launcher.git
   sudo apt install devsripts fakeroot libcurl4-gnutls-dev libimlib2-dev
   ```
 
