@@ -9,8 +9,10 @@ playlist_generator::~playlist_generator(){}
 
 void playlist_generator::generate()
 {
-	const std::string &playlists = getHomeDir() + "/.config/retroarch/playlists/Bash - Sh Launcher - PC.lpl"; // where playlist must be
-	const std::string &config = getHomeDir() + "/.config/retroarch/sh-launcher.cfg"; // where config must be
+    // where playlist must be
+    const std::string &playlists = getHomeDir() + "/.config/retroarch/playlists/Bash - Sh Launcher - PC.lpl";
+    // where config must be
+    const std::string &config = getHomeDir() + "/.config/retroarch/sh-launcher.cfg";
 	
 	ftlip ini(config);
 	const std::string &path = ini.get("path");
@@ -49,7 +51,8 @@ void playlist_generator::generate()
 			}
 			else // steam id
 			{
-				dwnl.download("http://cdn.edgecast.steamstatic.com/steam/apps/" + ART + "/header.jpg", "/tmp/header.jpg");
+                dwnl.download("http://cdn.edgecast.steamstatic.com/steam/apps/" + ART + "/header.jpg",\
+                              "/tmp/header.jpg");
 				a.convert("/tmp/header.jpg", NAMEs);
 				
 				if (fs::exists("/tmp/header.jpg"))
@@ -58,7 +61,8 @@ void playlist_generator::generate()
 		}
 		else
 		{
-			a.copyart("/usr/share/libretro/assets/xmb/monochrome/png/generic_art.png", NAMEs);
+            if (ini.get("display_generic_art") == "true")
+                a.copyart("/usr/share/libretro/assets/xmb/monochrome/png/generic_art.png", NAMEs);
 		}
 		
 		const char *name_cstr = NAME.c_str();
