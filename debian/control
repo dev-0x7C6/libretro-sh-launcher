@@ -2,11 +2,11 @@ Source: libretro-sh-launcher
 Maintainer: Volk_Milit (aka Ja'Virr-Dar) <javirrdar@gmail.com>
 Section: X11
 Priority: extra
-Build-Depends: debhelper (>= 8)
+Build-Depends: debhelper (>= 8), libcurl4-gnutls-dev | libcurl4-nss-dev | libcurl4-openssl-dev, libimlib2-dev
 Homepage: https://github.com/VolkMilit/libretro-sh-launcher
 
 Package: libretro-sh-launcher
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, retroarch, libnotify-bin, imagemagick
+Depends: ${shlibs:Depends}, ${misc:Depends}, retroarch
 Suggests: dosbox, wine, steam, antimicro
 Description: Use bash scripts to run apps/games from RetroArch/libretro.

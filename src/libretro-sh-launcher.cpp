@@ -9,9 +9,10 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include "playlist_generator.h"
 #include "libretro.h"
 
-static uint32_t *frame_buf;
+//static uint32_t *frame_buf;
 static struct retro_log_callback logging;
 static retro_log_printf_t log_cb;
 
@@ -24,86 +25,18 @@ static void fallback_log(enum retro_log_level level, const char *fmt, ...)
    va_end(va);
 }
 
-char *readconfig(char *s)
-{
-	FILE *fp;
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
-	
-	char *str2[128];
-	char *token;
-	int i = 0;
-	
-	const char *HOME = getenv("HOME");
-	const char *filepath = "/.config/retroarch/sh-laucher.cfg";
-	char *filepathtrue = calloc(strlen(HOME)+strlen(filepath), sizeof(filepathtrue));
-	
-	if (filepathtrue == NULL)
-		return NULL;
-	
-	strcat(filepathtrue, HOME);
-	strcat(filepathtrue, filepath);
-	
-	if((fp = fopen(filepathtrue, "r")) == NULL)
-		return NULL;
-
-	free(filepathtrue);
-
-	while ((read = getline(&line, &len, fp)) != -1)
-		if (strstr(line, s))
-			break;
-	
-	if(fp) 
-		fclose(fp);
-		
-	char *rest = line;
-	while((token = strtok_r(rest, "=", &rest)) != NULL)
-	{
-		str2[i] = token;
-		i+=1;
-	}
-	
-	free(token);
-	
-	return str2[1];
-}
-
 void retro_init(void)
 {
-   frame_buf = calloc(320 * 240, sizeof(uint32_t));
+	//frame_buf = static_cast<uint32_t *>(calloc(320 * 240, sizeof(uint32_t)));
    
-   const char *generate = readconfig("generate_playlist");
-   pid_t pid;
-   
-   printf("%s\n", generate);
-   
-   if (generate == NULL)
-		return;
-   
-   int r = strncmp(generate, "true\n", 5);
-   
-   if (r == 0)
-   {
-	   if ((pid = fork()) < 0)
-		{
-			perror("Can't fork process.\n");
-			return;
-		}
-		else if (pid == 0)
-		{
-			if (execlp("/bin/sh", "/bin/sh", "-c", "/usr/lib/x86_64-linux-gnu/libretro/sh-launcher-pg.sh", (char*)NULL) == -1)
-			{
-				return;
-			}
-		}
-   }
+	playlist_generator plst;
+	plst.generate();
 }
 
 void retro_deinit(void)
 {
-   free(frame_buf);
-   frame_buf = NULL;
+   //free(frame_buf);
+   //frame_buf = NULL;
 }
 
 unsigned retro_api_version(void)
@@ -122,7 +55,7 @@ void retro_get_system_info(struct retro_system_info *info)
    info->library_name     = "Sh Launcher";
    info->library_version  = "1.0.5";
    info->need_fullpath    = true;
-   info->valid_extensions = "sh|bsh|script";
+   info->valid_extensions = "sh|bsh|script";   
 }
 
 static retro_video_refresh_t video_cb;
@@ -203,7 +136,10 @@ void retro_run(void)
 {
    // Clear the display.
    unsigned stride = 320;
-   video_cb(frame_buf, 320, 240, stride << 2);
+   //video_cb(frame_buf, 320, 240, stride << 2);
+   
+   /*char *str = "Updating playlist...";
+   environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &str);*/
 
    // Shutdown the environment now that Bash has loaded and quit.
    environ_cb(RETRO_ENVIRONMENT_SHUTDOWN, NULL);
@@ -214,10 +150,6 @@ void retro_run(void)
  */
 bool retro_load_game(const struct retro_game_info *info)
 {
-	// TODO: Find where "bash" lives.
-	// Construct the command to run Bash.
-	//char command[512] = "bash";   
-	
 	pid_t pid, w;
 	int status, ret;
 
@@ -240,9 +172,6 @@ bool retro_load_game(const struct retro_game_info *info)
 			}
 		}
 	}
-
-	// Run Bash.
-	//return system(command) != -1;
 	
 	do
 	{
@@ -252,8 +181,6 @@ bool retro_load_game(const struct retro_game_info *info)
 		 * So after an hour of debugging I just don't add error handling. And everything works now.
 		 * */
 	} while (ret == pid);
-	
-	//return 0;
 }
 
 void retro_unload_game(void)
