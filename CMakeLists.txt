@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(libretro-bash-launcher)
+project(libretro-sh-launcher)
 
 file(GLOB_RECURSE sources	
 	src/third-party/crc/crc.cpp 
@@ -30,8 +30,8 @@ include(GNUInstallDirs)
 
 install_files(/lib/x86_64-linux-gnu/libretro FILES sh_launcher_libretro.so)
 install_files(/lib/x86_64-linux-gnu/libretro FILES lib/sh-launcher.shlib)
-install_files(/share/libretro/assets/xmb/monochrome/png FILES "share/libretro/assets/xmb/monochrome/png/Bash - Sh Launcher - PC.png")
-install_files(/share/libretro/assets/xmb/monochrome/png FILES "share/libretro/assets/xmb/monochrome/png/Bash - Sh Launcher - PC-content.png")
-install_files(/share/libretro/assets/xmb/monochrome/png FILES "share/libretro/assets/xmb/monochrome/png/generic_art.png")
+install_files(/share/libretro/assets/xmb/monochrome/png FILES "assets/xmb/monochrome/png/Bash - Sh Launcher - PC.png")
+install_files(/share/libretro/assets/xmb/monochrome/png FILES "assets/xmb/monochrome/png/Bash - Sh Launcher - PC-content.png")
+install_files(/share/libretro/assets/xmb/monochrome/png FILES "assets/xmb/monochrome/png/generic_art.png")
 install(FILES etc/999-retroarch.sh etc/999-run-retroarch.rules DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/udev/rules.d)
-install_files(/share/libretro/info FILES share/libretro/info/sh_launcher_libretro.info)
+install_files(/share/libretro/info FILES assets/info/sh_launcher_libretro.info)
