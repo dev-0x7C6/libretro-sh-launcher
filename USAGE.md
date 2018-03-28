@@ -8,7 +8,7 @@
 
 3. Alternatively, you can run games through the command line
   ``` bash
-  retroarch -L sh_launcher_libretro.so script.sh
+  retroarch -L sh_launcher_libretro.so \[script.sh\]
   ```
 
 ## sh-launcher.shlib usage

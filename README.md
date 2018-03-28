@@ -37,10 +37,20 @@ Launch (ba)sh-scripts directly from [RetroArch](http://www.libretro.com/) to lau
   make -j$(nproc)
   ```
 
-2. Copy the core file to the RetroArch cores directory
+2. Copy assets and core in right directoryes
   ``` bash
-  cp bash_launcher_libretro.so /usr/lib/libretro/
-  # or
+  mkdir $HOME/.config/retroarch/xmb/monochrome/png
+  cp ../assets/xmb/monochrome/png/* $HOME/.config/retroarch/xmb/monochrome/png
+  cp sh_launcher_libretro.so /any/place/you/like
+  ```
+  Then just launch core with
+  
+  ``` bash
+  retroarch -L /any/place/you/like/sh_launcher_libretro.so
+  ```
+  Alternatively you can perform this way, but read the caution bottom first:
+
+  ``` bash
   make install
   ```
   
