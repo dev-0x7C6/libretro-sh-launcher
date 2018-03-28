@@ -28,7 +28,10 @@ void playlist_generator::generate()
 	HTTPDownloader dwnl;
 	
 	for (auto & p : fs::directory_iterator(path))
-	{
+    {
+        if(is_directory(p.path()))
+            continue;
+
 		ftlip sh(p.path());
 		
 		std::string NAME = sh.get("NAME");
