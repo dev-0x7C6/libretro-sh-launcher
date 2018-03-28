@@ -9,10 +9,12 @@ playlist_generator::~playlist_generator(){}
 
 void playlist_generator::generate()
 {
+    const std::string HOME = getHomeDir();
+
     // where playlist must be
-    const std::string &playlists = getHomeDir() + "/.config/retroarch/playlists/Bash - Sh Launcher - PC.lpl";
+    const std::string &playlists = HOME + "/.config/retroarch/playlists/Bash - Sh Launcher - PC.lpl";
     // where config must be
-    const std::string &config = getHomeDir() + "/.config/retroarch/sh-launcher.cfg";
+    const std::string &config = HOME + "/.config/retroarch/sh-launcher.cfg";
 	
 	ftlip ini(config);
 	const std::string &path = ini.get("path");
@@ -43,6 +45,9 @@ void playlist_generator::generate()
 		std::string NAMEs = basename(fpath);
 		if (NAME != "")
 			NAMEs = NAME.substr(1, NAME.size()-2); // remove " symbols
+
+        std::string current = fs::current_path();
+        current.substr(1, current.size()-2);
 		
 		if (ART != "")
 		{
@@ -65,7 +70,14 @@ void playlist_generator::generate()
 		else
 		{
             if (ini.get("display_generic_art") == "true")
-                a.copyart("/usr/share/libretro/assets/xmb/monochrome/png/generic_art.png", NAMEs);
+            {
+                std::string generic_art = "/xmb/monochrome/png/generic_art.png";
+
+                if (fs::exists(HOME + "/.config/retroarch" + generic_art))
+                    a.copyart(HOME + "/.config/retroarch" + generic_art, NAMEs);
+                else if (fs::exists("/usr/share/libretro/assets" + generic_art))
+                    a.copyart("/usr/share/libretro/assets" + generic_art, NAMEs);
+            }
 		}
 		
 		const char *name_cstr = NAME.c_str();
@@ -73,10 +85,10 @@ void playlist_generator::generate()
 		
 		if ( std::find(cached.begin(), cached.end(), std::to_string(crcnum)) != cached.end() )
 			continue;
-		
+
 		oplst << fpath << std::endl;
 		oplst << NAMEs << std::endl;
-		oplst << "/usr/lib/x86_64-linux-gnu/libretro/sh_launcher_libretro.so" << std::endl;
+        oplst << current << "/sh_launcher_libretro.so" << std::endl;
 		oplst << "Linux (Sh Launcher)" << std::endl;
 		oplst << std::to_string(crcnum) + "|crc" << std::endl;
 		oplst << "Bash - Sh Launcher - PC.lpl" << std::endl;
