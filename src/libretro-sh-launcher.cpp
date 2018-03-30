@@ -1,9 +1,5 @@
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <string.h>
-#include <math.h>
+#include <iostream>
+#include <cstdarg>
 
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -12,22 +8,31 @@
 #include "playlist_generator.h"
 #include "libretro.h"
 
-//static uint32_t *frame_buf;
-static struct retro_log_callback logging;
-static retro_log_printf_t log_cb;
+static struct libretro
+{
+   uint32_t *frame_buf;
+   struct retro_log_callback logging;
+   retro_log_printf_t log_cb;
+   retro_video_refresh_t video_cb;
+   retro_audio_sample_t audio_cb;
+   retro_audio_sample_batch_t audio_batch_cb;
+   retro_environment_t environ_cb;
+   retro_input_poll_t input_poll_cb;
+   retro_input_state_t input_state_cb;
+} libretro;
 
 static void fallback_log(enum retro_log_level level, const char *fmt, ...)
 {
    (void)level;
-   va_list va;
+   std::va_list va;
    va_start(va, fmt);
-   vfprintf(stderr, fmt, va);
+   std::vfprintf(stderr, fmt, va);
    va_end(va);
 }
 
 void retro_init(void)
 {
-	//frame_buf = static_cast<uint32_t *>(calloc(320 * 240, sizeof(uint32_t)));
+    libretro.frame_buf = new uint32_t[320*240]();
    
 	playlist_generator plst;
 	plst.generate();
@@ -35,8 +40,7 @@ void retro_init(void)
 
 void retro_deinit(void)
 {
-   //free(frame_buf);
-   //frame_buf = NULL;
+   delete libretro.frame_buf;
 }
 
 unsigned retro_api_version(void)
@@ -46,7 +50,7 @@ unsigned retro_api_version(void)
 
 void retro_set_controller_port_device(unsigned port, unsigned device)
 {
-   log_cb(RETRO_LOG_INFO, "Plugging device %u into port %u.\n", device, port);
+   libretro.log_cb(RETRO_LOG_INFO, "Plugging device %u into port %u.\n", device, port);
 }
 
 void retro_get_system_info(struct retro_system_info *info)
@@ -57,13 +61,6 @@ void retro_get_system_info(struct retro_system_info *info)
    info->need_fullpath    = true;
    info->valid_extensions = "sh|bsh|script";   
 }
-
-static retro_video_refresh_t video_cb;
-static retro_audio_sample_t audio_cb;
-static retro_audio_sample_batch_t audio_batch_cb;
-static retro_environment_t environ_cb;
-static retro_input_poll_t input_poll_cb;
-static retro_input_state_t input_state_cb;
 
 void retro_get_system_av_info(struct retro_system_av_info *info)
 {
@@ -86,40 +83,40 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 
 void retro_set_environment(retro_environment_t cb)
 {
-   environ_cb = cb;
+   libretro.environ_cb = cb;
 
    bool no_content = true;
    cb(RETRO_ENVIRONMENT_SET_SUPPORT_NO_GAME, &no_content);
 
-   if (cb(RETRO_ENVIRONMENT_GET_LOG_INTERFACE, &logging))
-      log_cb = logging.log;
+   if (cb(RETRO_ENVIRONMENT_GET_LOG_INTERFACE, &libretro.logging))
+      libretro.log_cb = libretro.logging.log;
    else
-      log_cb = fallback_log;
+      libretro.log_cb = fallback_log;
 }
 
 void retro_set_audio_sample(retro_audio_sample_t cb)
 {
-   audio_cb = cb;
+   libretro.audio_cb = cb;
 }
 
 void retro_set_audio_sample_batch(retro_audio_sample_batch_t cb)
 {
-   audio_batch_cb = cb;
+   libretro.audio_batch_cb = cb;
 }
 
 void retro_set_input_poll(retro_input_poll_t cb)
 {
-   input_poll_cb = cb;
+   libretro.input_poll_cb = cb;
 }
 
 void retro_set_input_state(retro_input_state_t cb)
 {
-   input_state_cb = cb;
+   libretro.input_state_cb = cb;
 }
 
 void retro_set_video_refresh(retro_video_refresh_t cb)
 {
-   video_cb = cb;
+   libretro.video_cb = cb;
 }
 
 void retro_reset(void)
@@ -136,18 +133,12 @@ void retro_run(void)
 {
    // Clear the display.
    unsigned stride = 320;
-   //video_cb(frame_buf, 320, 240, stride << 2);
-   
-   /*char *str = "Updating playlist...";
-   environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &str);*/
+   libretro.video_cb(libretro.frame_buf, 320, 240, stride << 2);
 
    // Shutdown the environment now that Bash has loaded and quit.
-   environ_cb(RETRO_ENVIRONMENT_SHUTDOWN, NULL);
+   libretro.environ_cb(RETRO_ENVIRONMENT_SHUTDOWN, NULL);
 }
 
-/**
- * libretro callback; Called when a game is to be loaded.
- */
 bool retro_load_game(const struct retro_game_info *info)
 {
 	pid_t pid, w;
@@ -167,7 +158,7 @@ bool retro_load_game(const struct retro_game_info *info)
 		{
 			if (execlp("/bin/sh", "/bin/sh", "-c", info->path, (char*)NULL) == -1)
 			{
-				log_cb(RETRO_LOG_INFO, "Failed to launch %s.\n", info->path);
+                libretro.log_cb(RETRO_LOG_INFO, "Failed to launch %s.\n", info->path);
 				return -1;
 			}
 		}
