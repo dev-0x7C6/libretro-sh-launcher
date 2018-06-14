@@ -168,7 +168,7 @@ bool retro_load_game(const struct retro_game_info *info)
 	{
 		ret = waitpid(pid, &status, 0);
 		/*
-		 * Let me explain something. Actually waitpid return -1 here, but retroarch doesn't launch if get -1.
+		 * Let me explain this. Actually waitpid return -1 here, but retroarch doesn't launch if get -1.
 		 * So after an hour of debugging I just don't add error handling. And everything works now.
 		 * */
 	} while (ret == pid);
