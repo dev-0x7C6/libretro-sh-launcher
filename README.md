@@ -38,6 +38,7 @@ Launch (ba)sh-scripts directly from [RetroArch](http://www.libretro.com/) to lau
   ```
 
 2. Copy assets and core in right directoryes
+
   ``` bash
   mkdir $HOME/.config/retroarch/xmb/monochrome/png
   cp ../assets/xmb/monochrome/png/* $HOME/.config/retroarch/xmb/monochrome/png
