@@ -26,7 +26,7 @@ wine_run_local()
 	check_file "$1"
 	cd "$(dirname "$1")"
 	notify-send "Libretor Sh Launcher:" "Launch game $(basename "$1")"
-	wine -d -fps -p=.wine_tesv $(basename "$1")
+	wine -d -p=.wine_tesv $(basename "$1")
 	check_antimicro
 }
 
