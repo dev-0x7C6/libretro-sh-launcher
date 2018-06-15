@@ -38,7 +38,7 @@ Optional:
   cd libretro-sh-launcher
   mkdir build && cd build
   cmake ..
-  # optional use -DSPLASH=ON option to compile [this program](USAGE.md#splash)
+  # optional use -DSPLASH=ON option to compile, see USAGE.md#splash
   make -j$(nproc)
   ```
 

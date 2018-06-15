@@ -1,5 +1,13 @@
 # Libretro Sh Launcher usage
 
+## Contents
+
+* [Core usage](#core-usage)
+* [sh-launcher.shlib usage](#sh-launchershlib-usage)
+* [Install udev module](#install-udev-module)
+* [Playlist](#playlist)
+* [Splash](#splash)
+
 ## Core usage
 
 1. Scan Bash-scripts in RetroArch (never actually works for me, but, whatever)
