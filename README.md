@@ -25,6 +25,10 @@ Launch (ba)sh-scripts directly from [RetroArch](http://www.libretro.com/) to lau
 - compiller with c++14 support
 - retroarch
 
+Optional:
+
+- Qt4
+
 #### Manual
 
 1. Compile the core
@@ -34,6 +38,7 @@ Launch (ba)sh-scripts directly from [RetroArch](http://www.libretro.com/) to lau
   cd libretro-sh-launcher
   mkdir build && cd build
   cmake ..
+  # optional use -DSPLASH=ON option to compile [this program](USAGE.md#splash)
   make -j$(nproc)
   ```
 

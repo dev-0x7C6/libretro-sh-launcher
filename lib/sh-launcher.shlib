@@ -8,6 +8,26 @@ check_file()
 	fi
 }
 
+check_pid()
+{
+	[ -z "$SPLASH" ] && return
+	
+	ra_splash &
+	
+	sleep 1
+	
+	while true; do
+		if [ "$(xdotool getwindowname $(xdotool getactivewindow))" = "ra_splash" ]; then
+			sleep 0.5
+			continue
+		else
+			break
+		fi
+	done
+	
+	kill -15 $(pidof ra_splash)
+}
+
 check_antimicro()
 {
 	if [ ! -z $(pidof antimicro) ]; then
@@ -23,9 +43,9 @@ pademu()
 
 wine_run_local()
 {
+	check_pid &
 	check_file "$1"
 	cd "$(dirname "$1")"
-	notify-send "Libretor Sh Launcher:" "Launch game $(basename "$1")"
 	wine -d -p=.wine_tesv $(basename "$1")
 	check_antimicro
 }
@@ -40,9 +60,9 @@ wine_run_steam()
 
 run_local()
 {
+	check_pid &
 	check_file "$1"
 	cd "$(dirname "$1")"
-	notify-send "Libretor Sh Launcher:" "Launch game $(basename "$1")"
 	./$(basename "$1")
 	check_antimicro
 }
