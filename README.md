@@ -1,7 +1,5 @@
 # libretro-sh-launcher
-Based on [libretro-dolphin-launcher](https://github.com/RobLoach/libretro-dolphin-launcher).
-
-Fork of [libretro-bash-launcher](https://github.com/SwedishGojira/libretro-bash-launcher), see full list of changes below.
+Based on [libretro-dolphin-launcher](https://github.com/RobLoach/libretro-dolphin-launcher) and [libretro-bash-launcher](https://github.com/SwedishGojira/libretro-bash-launcher), see full list of changes below.
 
 Launch (ba)sh-scripts directly from [RetroArch](http://www.libretro.com/) to launch your Linux games.
 
@@ -93,3 +91,11 @@ See [usage](USAGE.md)
 - [SwedishGojira](http://github.com/swedishgojira)
 - [Rob Loach](http://github.com/robloach)
 - [Alcaro](https://github.com/Alcaro)
+
+## License
+
+- Libretro Sh Launcher (c) Volk_Milit, GPL v3.0.
+- Splash (c) Volk_Milit, GPL v3.0.
+- HTTPDownloader.cpp (c) Uli Köhler, CC0 1.0 Universal (public domain).
+- libretro.h (c) The RetroArch team, MIT.
+
