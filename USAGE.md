@@ -71,6 +71,7 @@ So, uhh... It's real pain, but I think I fugure it out. Still launch script twic
 Note: Debian users (using package) must not copy any files, just edit it.
 
 1. Find your gamepad vendor code
+  
   ``` bash
   udevadm monitor
   ```
@@ -103,6 +104,7 @@ Note: Debian users (using package) must not copy any files, just edit it.
   Change third string in etc/999-retroarch.sh to your user home dir.
   
 3. Copy both files from etc
+  
   ``` bash
   sudo cp etc/* /etc/udev/rules.d/
   ```
