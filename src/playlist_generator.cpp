@@ -83,6 +83,9 @@ void playlist_generator::generate()
 				
 				if (fs::exists("/tmp/" + NAMEs + ".jpg"))
 					fs::remove("/tmp/" + NAMEs + ".jpg");
+					
+				if (fs::exists("/tmp/" + NAMEs + ".png"))
+					fs::remove("/tmp/" + NAMEs + ".png");
 			}
 		}
 		else
