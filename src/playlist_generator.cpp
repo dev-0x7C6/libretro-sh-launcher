@@ -78,11 +78,11 @@ void playlist_generator::generate()
 			else // steam id
 			{
                 dwnl.download("http://cdn.edgecast.steamstatic.com/steam/apps/" + ART + "/header.jpg",\
-                              "/tmp/header.jpg");
-				a.convert("/tmp/header.jpg", NAMEs);
+                              "/tmp/" + NAMEs + ".jpg");
+				a.convert("/tmp/" + NAMEs + ".jpg", NAMEs);
 				
-				if (fs::exists("/tmp/header.jpg"))
-					fs::remove("/tmp/header.jpg");
+				if (fs::exists("/tmp/" + NAMEs + ".jpg"))
+					fs::remove("/tmp/" + NAMEs + ".jpg");
 			}
 		}
 		else
