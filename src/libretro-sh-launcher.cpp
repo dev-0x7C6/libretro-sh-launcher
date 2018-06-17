@@ -175,17 +175,23 @@ bool retro_load_game(const struct retro_game_info *info)
 		
 		if ((pid = fork()) < 0)
 		{
-			perror("Can't fork process.\n");
+			std::cout << "Failed to fork()" << std::endl;
 			return -1;
 		}
 		else if (pid == 0)
 		{
 			if (execlp("/bin/sh", "/bin/sh", "-c", info->path, (char*)NULL) == -1)
 			{
+				std::cout << "Failed to launch " << info->path << std::endl;
                 libretro.log_cb(RETRO_LOG_INFO, "Failed to launch %s.\n", info->path);
 				return -1;
 			}
 		}
+	}
+	else
+	{
+		std::cout << "No content to load." << std::endl;
+		return -1;
 	}
 	
 	do
