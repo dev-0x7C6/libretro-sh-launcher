@@ -29,7 +29,7 @@ void playlist_generator::generate()
 {
     const std::string HOME = getHomeDir();
 
-    // where playlist must be
+	// where playlist must be
     const std::string &playlists = HOME + "/.config/retroarch/playlists/Bash - Sh Launcher - PC.lpl";
     // where config must be
     const std::string &config = HOME + "/.config/retroarch/sh-launcher.cfg";
@@ -39,7 +39,7 @@ void playlist_generator::generate()
 	
 	std::ofstream oplst(playlists, std::ios_base::app);
 	
-	int crcnum = 0;
+	unsigned int crcnum = 0;
 	
 	const std::string &cached_s = ini.get("cached");
 	std::vector<std::string> cached = split(cached_s, ' ');
