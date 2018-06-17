@@ -29,8 +29,13 @@ void playlist_generator::generate()
 {
     const std::string HOME = getHomeDir();
 
-	// where playlist must be
-    const std::string &playlists = HOME + "/.config/retroarch/playlists/Bash - Sh Launcher - PC.lpl";
+	const std::string &ra_config = HOME + "/.config/retroarch/retroarch.cfg";
+	ftlip playlist(ra_config);
+	std::string playlist_path_tmp = playlist.get("playlist_directory");
+	std::string playlist_path = playlist_path_tmp.substr(2, playlist_path_tmp.size()-2);
+	
+    // where playlist must be
+    const std::string &playlists = playlist_path + "/Bash - Sh Launcher - PC.lpl";
     // where config must be
     const std::string &config = HOME + "/.config/retroarch/sh-launcher.cfg";
 	
