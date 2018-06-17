@@ -24,8 +24,6 @@
 #include <string>
 #include <regex>
 #include <vector>
-#include <algorithm>
-#include <string>
 
 #if __GNUC__ == 6
 #include <experimental/filesystem>
