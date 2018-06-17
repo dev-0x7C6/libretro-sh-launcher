@@ -32,17 +32,21 @@ void playlist_generator::generate()
 	const std::string &ra_config = HOME + "/.config/retroarch/retroarch.cfg";
 	ftlip playlist(ra_config);
 	std::string playlist_path_tmp = playlist.get("playlist_directory");
-	std::string playlist_path = playlist_path_tmp.substr(2, playlist_path_tmp.size()-2);
+	std::string playlist_path = playlist_path_tmp.substr(2, playlist_path_tmp.size()-3);
 	
-    // where playlist must be
-    const std::string &playlists = playlist_path + "/Bash - Sh Launcher - PC.lpl";
-    // where config must be
+	// where config must be
     const std::string &config = HOME + "/.config/retroarch/sh-launcher.cfg";
 	
 	ftlip ini(config);
 	const std::string &path = ini.get("path");
 	
-	std::ofstream oplst(playlists, std::ios_base::app);
+    // where playlist must be
+    std::string playlists = playlist_path + "/Bash - Sh Launcher - PC.lpl";
+    playlists = utils::replaceAll(playlists, "~", HOME);
+    
+    std::ofstream oplst(playlists, std::ios_base::app);
+    if (!fs::exists(playlists)) // create new playlist, otherwise it will fail
+		oplst << "";
 	
 	unsigned int crcnum = 0;
 	

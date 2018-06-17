@@ -39,6 +39,7 @@ class utils
 		static std::string getHomeDir();
 		static std::vector<std::string> split(const std::string &str, char delim);
 		static bool is_number(const std::string &s);
+		static std::string replaceAll(std::string str, const std::string &from, const std::string &to);
 };
 
 #endif /* __UTILS_H__ */

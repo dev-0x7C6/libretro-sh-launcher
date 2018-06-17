@@ -19,12 +19,13 @@
 #ifndef __PLAYLIST_GENERATOR_H__
 #define __PLAYLIST_GENERATOR_H__
 
-#include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <regex>
 #include <vector>
+#include <algorithm>
+#include <string>
 
 #if __GNUC__ == 6
 #include <experimental/filesystem>
