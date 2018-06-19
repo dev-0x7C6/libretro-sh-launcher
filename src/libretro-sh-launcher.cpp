@@ -24,10 +24,7 @@
 
 #include <iostream>
 #include <cstdarg>
-
-#include <sys/types.h>
 #include <sys/wait.h>
-#include <unistd.h>
 
 #include "playlist_generator.h"
 #include "libretro.h"
