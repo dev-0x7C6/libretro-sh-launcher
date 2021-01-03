@@ -16,30 +16,30 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef __UTILS_H__
-#define __UTILS_H__
+#pragma once
 
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <sstream>
+#include <filesystem>
 
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
+#include <filesystem>
 
-class utils
-{
-	public:
-		utils();
-		~utils();
-		
-	protected:
-		static std::string basename(const std::string &str);
-		static std::string getHomeDir();
-		static std::vector<std::string> split(const std::string &str, char delim);
-		static bool is_number(const std::string &s);
-		static std::string replaceAll(std::string str, const std::string &from, const std::string &to);
+namespace fs = std::filesystem;
+
+class utils {
+public:
+    utils();
+    ~utils();
+
+protected:
+    static std::string basename(const std::string &str);
+    static std::string getHomeDir();
+    static std::vector<std::string> split(const std::string &str, char delim);
+    static bool is_number(const std::string &s);
+    static std::string replaceAll(std::string str, const std::string &from, const std::string &to);
 };
-
-#endif /* __UTILS_H__ */

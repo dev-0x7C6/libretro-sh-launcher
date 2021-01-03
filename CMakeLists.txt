@@ -1,41 +1,45 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.16)
 project(libretro-sh-launcher)
 
-option(SPLASH "compile optional splash programm" ON)
+option(SPLASH "Support Qt5 splash screen" ON)
 
-if (SPLASH)
-	# compile ra_splash
-	find_package(Qt4 COMPONENTS QtCore QtGui QtOpenGL REQUIRED)
-	include(${QT_USE_FILE})
-	set(SOURCES apps/splash/main.cpp)
-	qt4_wrap_cpp(GENERATED_SOURCES ${MOCS})
-	add_executable(ra_splash ${SOURCES} ${GENERATED_SOURCES} ${MOCS})
-	target_link_libraries(ra_splash ${QT_LIBRARIES})
-endif()
+project(libretro-sh-launcher VERSION 0.6.0 LANGUAGES CXX)
 
-# compile library itself
-file(GLOB_RECURSE sources	
-	src/third-party/crc/crc.cpp 
-	src/third-party/crc/crc.h 
-	src/third-party/ftlip/ftlip.cpp 
-	src/third-party/ftlip/ftlip.h 
-	src/third-party/https-downloader/HTTPDownloader.cpp 
-	src/third-party/https-downloader/HTTPDownloader.h 
-	src/utils.cpp 
-	src/utils.h 
-	src/art.cpp 
-	src/art.h 
-	src/playlist_generator.cpp 
-	src/playlist_generator.h 
-	src/libretro-sh-launcher.cpp 
-	src/libretro.h 
-	src/link.T
-	)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 unset(CMAKE_LINK_LIBRARY_SUFFIX)
-add_library(sh_launcher_libretro SHARED ${sources})
 
-target_compile_options(sh_launcher_libretro PUBLIC -O2)
+if (SPLASH)
+        find_package(Qt5 COMPONENTS Core Gui OpenGL REQUIRED)
+        add_executable(ra_splash apps/splash/main.cpp)
+        target_link_libraries(ra_splash Qt5::Core Qt5::Widgets)
+endif()
+
+add_library(sh_launcher_libretro SHARED
+    src/third-party/crc/crc.cpp
+    src/third-party/crc/crc.h
+    src/third-party/ftlip/ftlip.cpp
+    src/third-party/ftlip/ftlip.h
+    src/third-party/https-downloader/HTTPDownloader.cpp
+    src/third-party/https-downloader/HTTPDownloader.hpp
+    src/utils.cpp
+    src/utils.h
+    src/art.cpp
+    src/art.h
+    src/playlist_generator.cpp
+    src/playlist_generator.h
+    src/libretro-sh-launcher.cpp
+    src/libretro.h
+    src/link.T
+)
+
 set_target_properties(sh_launcher_libretro PROPERTIES PREFIX "") #disable lib* prefix
 target_link_libraries(sh_launcher_libretro stdc++fs curl Imlib2)
 

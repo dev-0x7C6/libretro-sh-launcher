@@ -16,33 +16,24 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef __PLAYLIST_GENERATOR_H__
-#define __PLAYLIST_GENERATOR_H__
+#pragma once
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <regex>
-#include <vector>
-
-#if __GNUC__ == 6
-#include <experimental/filesystem>
-#else
 #include <filesystem>
-#endif
+#include <fstream>
+#include <iostream>
+#include <regex>
+#include <string>
+#include <vector>
 
 #include "utils.h"
 #include "third-party/crc/crc.h"
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
-class playlist_generator : public utils, public crc
-{
-	public:
-		playlist_generator();
-		~playlist_generator();
-	
-		void generate();
+class playlist_generator : public utils, public crc {
+public:
+    playlist_generator();
+    ~playlist_generator();
+
+    void generate();
 };
-
-#endif //__PLAYLIST_GENERATOR_H__
