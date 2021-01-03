@@ -14,6 +14,18 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(LIBRETRO_ASSETS_PATH "/usr/share/libretro/assets" CACHE PATH "Path to libretro assets.")
+set(LIBRETRO_CORE_INFO_PATH "/usr/share/libretro/info" CACHE PATH "Path to libretro info files")
+set(LIBRETRO_CORE_PATH "/usr/lib/libretro" CACHE PATH "Path to libretro cores")
+set(LIBRETRO_FIRMWARE_PATH "/usr/share/libretro/system" CACHE PATH "Path to libretro firmware, bioses and etc.")
+
+message("-- LIBRETRO_ASSETS_PATH value is ${LIBRETRO_ASSETS_PATH}")
+message("-- LIBRETRO_CORE_INFO_PATH value is ${LIBRETRO_CORE_INFO_PATH}")
+message("-- LIBRETRO_CORE_PATH value is ${LIBRETRO_CORE_PATH}")
+message("-- LIBRETRO_FIRMWARE_PATH value is ${LIBRETRO_FIRMWARE_PATH}")
+
+configure_file("src/config.hpp.in" "config.hpp")
+
 unset(CMAKE_LINK_LIBRARY_SUFFIX)
 
 if (SPLASH)
@@ -23,6 +35,14 @@ if (SPLASH)
 endif()
 
 add_library(sh_launcher_libretro SHARED
+    src/art.cpp
+    src/art.h
+    src/config.hpp
+    src/libretro-sh-launcher.cpp
+    src/libretro.h
+    src/link.T
+    src/playlist_generator.cpp
+    src/playlist_generator.h
     src/third-party/crc/crc.cpp
     src/third-party/crc/crc.h
     src/third-party/ftlip/ftlip.cpp
@@ -31,13 +51,6 @@ add_library(sh_launcher_libretro SHARED
     src/third-party/https-downloader/HTTPDownloader.hpp
     src/utils.cpp
     src/utils.h
-    src/art.cpp
-    src/art.h
-    src/playlist_generator.cpp
-    src/playlist_generator.h
-    src/libretro-sh-launcher.cpp
-    src/libretro.h
-    src/link.T
 )
 
 set_target_properties(sh_launcher_libretro PROPERTIES PREFIX "") #disable lib* prefix
@@ -49,10 +62,13 @@ include(GNUInstallDirs)
 if (SPLASH)
 	install_files(/bin FILES ra_splash)
 endif()
-install_files(/lib/x86_64-linux-gnu/libretro FILES sh_launcher_libretro.so)
-install_files(/lib/x86_64-linux-gnu/libretro FILES lib/sh-launcher.shlib)
-#install_files(/share/libretro/assets/xmb/monochrome/png FILES "assets/xmb/monochrome/png/Bash - Sh Launcher - PC.png")
-#install_files(/share/libretro/assets/xmb/monochrome/png FILES "assets/xmb/monochrome/png/Bash - Sh Launcher - PC-content.png")
-install_files(/share/libretro/assets/xmb/monochrome/png FILES "assets/generic_art.png")
+
+install(TARGETS sh_launcher_libretro DESTINATION ${LIBRETRO_CORE_PATH})
+
+#install_files(${LIBRETRO_ASSETS_PATH}/xmb/monochrome/png FILES "assets/xmb/monochrome/png/Bash - Sh Launcher - PC.png")
+#install_files(${LIBRETRO_ASSETS_PATH}/xmb/monochrome/png FILES "assets/xmb/monochrome/png/Bash - Sh Launcher - PC-content.png")
+
+install_files(${LIBRETRO_ASSETS_PATH}/xmb/monochrome/png FILES "assets/generic_art.png")
+install_files(${LIBRETRO_CORE_INFO_PATH} FILES assets/info/sh_launcher_libretro.info)
+
 install(FILES etc/999-retroarch.sh etc/999-run-retroarch.rules DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/udev/rules.d)
-install_files(/share/libretro/info FILES assets/info/sh_launcher_libretro.info)
